@@ -522,6 +522,17 @@ h1,h2,h3,h4{font-weight:600;letter-spacing:-.03em}
 
 /* phone: first screen is only the name; About starts below the fold */
 @media(max-width:820px){#v-home .hx{min-height:100vh;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding-top:64px;padding-bottom:40px}}
+
+/* software: name, five-step level meter, level word */
+.sw{list-style:none;margin-top:10px;border-top:1px solid var(--k)}
+.sw li{display:grid;grid-template-columns:minmax(0,1fr) auto 78px;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid rgba(10,10,10,.18)}
+.sw b{font-weight:600;font-size:clamp(16px,1.5vw,20px);letter-spacing:-.02em}
+.sw .dots{display:flex;gap:4px}
+.sw .dots i{display:block;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--k);box-sizing:border-box}
+.sw .dots i.on{background:var(--k)}
+.sw li:hover .dots i.on{background:#a63d2a;border-color:#a63d2a}
+.sw em{font-style:normal;font:500 11px var(--f);letter-spacing:.14em;text-transform:uppercase;color:#77736b;text-align:right}
+@media(max-width:420px){.sw li{grid-template-columns:minmax(0,1fr) auto}.sw em{display:none}.sw .dots i{width:14px;height:14px}}
 </style>
 </head>
 <body>
@@ -555,7 +566,7 @@ h1,h2,h3,h4{font-weight:600;letter-spacing:-.03em}
   <div class="abf"><figure class="apo"><img id="por2" alt="Portrait of Louise Bomans"></figure>
    <div><p class="lab red">About</p><h2>About me</h2><div id="abfull"></div></div></div>
    <div class="fct2"><div><span class="lab red">Education</span><ol class="edu" id="edu"></ol></div>
-    <div class="tg"><div><span class="lab red">Languages</span><p id="tg1"></p></div><div><span class="lab red">Software</span><p id="tg2"></p></div><div><span class="lab red">Skills</span><p id="tg3"></p></div></div></div>
+    <div class="tg"><div><span class="lab red">Languages</span><p id="tg1"></p></div><div><span class="lab red">Software</span><ul class="sw" id="tg2"></ul></div><div><span class="lab red">Skills</span><p id="tg3"></p></div></div></div>
  </div></section>
  <section class="view" id="v-work"><div class="wrap">
   <p class="lab red">Work <span id="wkc" style="color:#77736b;margin-left:1.2em"></span></p>
@@ -620,7 +631,7 @@ if(matchMedia('(pointer:coarse)').matches)$('#awh').textContent='tap a word';
 $('#abfull').innerHTML=AB.map(function(x,i){return '<section class="afp"><span class="lab">'+pad(i+1)+'&ensp;'+esc(AK[i]||'')+'</span><p>'+esc(x)+'</p></section>'}).join('');
 aShow(0);if(!RM)aT=setInterval(function(){if(!aHold&&curV==='home')aShow(ai+1)},5200);
 $('#edu').innerHTML=C.education.map(function(e){var p=e.split(' · '),q=p[0].split(' — ');return '<li><span class="lab">'+esc(p[1]||'')+'</span><b>'+esc(q[0])+'</b><span>'+esc(q.slice(1).join(' — '))+'</span></li>'}).join('');
-$('#tg1').textContent=C.languages.join(' · ');$('#tg2').textContent=C.software.join(' · ');$('#tg3').textContent=C.skills.join(' · ');
+$('#tg1').textContent=C.languages.join(' · ');(function(){var L={good:4,average:3,beginner:2},h='';C.software.forEach(function(x){var m=x.split(/\s+[—-]\s+/),n=m[0],l=(m[1]||'').trim(),k=L[l.toLowerCase()]||3,d='';for(var i=1;i<=5;i++)d+='<i'+(i<=k?' class="on"':'')+'></i>';h+='<li><b>'+n+'</b><span class="dots" aria-hidden="true">'+d+'</span><em>'+l+'</em></li>'});$('#tg2').innerHTML=h})();$('#tg3').textContent=C.skills.join(' · ');
 /* work: a catalogue that opens one project at a time; titles fill with the project's picture */
 $('#wkc').textContent=Ps.length+' projects';
 $('#acc').innerHTML=Ps.map(function(p,i){var s=(p.sections&&p.sections[0]&&p.sections[0].t[0])||'';
